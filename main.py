@@ -76,6 +76,17 @@ def print_tracks(tracks: list[dict]):
             print(artist, end=' ')
         print(f" | {track['name']}")
 
+def track_to_arr_str(tracks):
+    res = []
+    for track in tracks:
+        str_r = ""
+        for artist in track['artists']:
+            str_r += artist
+            str_r += " "
+        str_r += f" {track['name']}"
+        res.append(str_r)
+    return res
+
 if __name__ == "__main__":
     app = App()
     tracks = app.get_playlist_tracks('23cMVZslIc26puFc10KjcH')
