@@ -89,5 +89,6 @@ def track_to_arr_str(tracks):
 
 if __name__ == "__main__":
     app = App()
-    tracks = app.get_playlist_tracks('23cMVZslIc26puFc10KjcH')
+    # tracks = app.get_playlist_tracks('23cMVZslIc26puFc10KjcH')
+    tracks = app.get_playlist_tracks('3gHIyBVPhS1p1er6tYpXmQ')
     print_tracks(tracks)
