@@ -1,5 +1,6 @@
 import requests
 import configparser
+import math
 
 # auth
 import base64
@@ -61,14 +62,28 @@ class App:
         Returns:
             list[{artists(list(str)), name(str)}]
         """
-        data = self.fetch_web_api(f'v1/playlists/{playlist_id}')
+        num_of_tracks = self.get_number_of_tracks_in_playlist(playlist_id)
+        times_to_offset = math.ceil(num_of_tracks/50.)
         res = []
-        for i in data.get("tracks")['items']:
-            obj = {}
-            obj['artists'] = [artist['name'] for artist in i['track']['artists']]
-            obj['name'] = i['track']['name']
-            res.append(obj)
+        for offset in range(0, times_to_offset):
+            data = self.fetch_web_api(f'v1/playlists/{playlist_id}/tracks?offset={offset*50}&limit=50')
+            for i in data.get("items"):
+                obj = {}
+                obj['artists'] = [artist['name'] for artist in i['track']['artists']]
+                obj['name'] = i['track']['name']
+                res.append(obj)
         return res
+    def get_number_of_tracks_in_playlist(self, playlist_id) -> int:
+        """
+        Returns the number of tracks in the playlist 
+
+        Args:
+            playlist_id(str) - id of the playlist
+        Returns:
+            number of tracks
+        """
+        data = self.fetch_web_api(f'v1/playlists/{playlist_id}')
+        return data.get("tracks")['total']
 
 def print_tracks(tracks: list[dict]):
     for track in tracks:
@@ -91,4 +106,6 @@ if __name__ == "__main__":
     app = App()
     # tracks = app.get_playlist_tracks('23cMVZslIc26puFc10KjcH')
     tracks = app.get_playlist_tracks('3gHIyBVPhS1p1er6tYpXmQ')
+    # print(app.get_number_of_tracks_in_playlist('3gHIyBVPhS1p1er6tYpXmQ'))
     print_tracks(tracks)
+
