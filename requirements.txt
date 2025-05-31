@@ -1,5 +1,3 @@
 requests
 pyrogram
 asyncio
-downloads/
-__pycache__/
