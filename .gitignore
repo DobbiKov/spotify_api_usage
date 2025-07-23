@@ -2,3 +2,7 @@ config.ini
 env/
 downloads/
 __pycache__/
+*.session
+*.session-journal
+.DS_Store
+tracks
