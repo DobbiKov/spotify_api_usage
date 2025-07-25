@@ -1,3 +1,4 @@
+from pathlib import Path
 import requests
 import configparser
 import math
@@ -101,11 +102,18 @@ def track_to_arr_str(tracks):
         str_r += f" {track['name']}"
         res.append(str_r)
     return res
+def save_tracks(tracks: list[dict], path: Path = Path("tracks")) -> None:
+    """
+    Saves tracks to a file 
+    """
+    with open(path, "w") as f:
+        contents = "\n".join(track_to_arr_str(tracks))
+        f.write(contents)
 
 if __name__ == "__main__":
     app = App()
     # tracks = app.get_playlist_tracks('23cMVZslIc26puFc10KjcH')
     tracks = app.get_playlist_tracks('3gHIyBVPhS1p1er6tYpXmQ')
-    # print(app.get_number_of_tracks_in_playlist('3gHIyBVPhS1p1er6tYpXmQ'))
-    print_tracks(tracks)
+    save_tracks(tracks)
+    # print_tracks(tracks)
 
